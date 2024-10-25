@@ -1,0 +1,53 @@
+@import url('/src/index.css');
+
+#spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: var(--size32);
+  padding-bottom: var(--size32);
+}
+.spinner {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid blue;
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.small-spinner {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid blue;
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+#spinner-container.dark {
+  .spinner {
+    border-top: 3px solid lightgray;
+  }
+}
