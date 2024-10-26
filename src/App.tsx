@@ -11,8 +11,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import WebSocketProvider from './Websockets/WebSocketProvider'
 
 import './App.css'
-
-
+import Layout from './Layout'
 
 export const ModalContext = createContext<ModalContextType | undefined>(undefined)
 
@@ -25,15 +24,15 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <IntlProvider locale={language === 'en' ? 'en' : 'es'} messages={language === 'en' ? enMessages : espMessages}>
         <WebSocketProvider>
-        <ModalContext.Provider value={{ showModal, setShowModal }}>
-          <main>
-            <BrowserRouter>
-              <Routes>
-                <Route path={AppRoutes.Home} element={<Home />} />
-              </Routes>
-            </BrowserRouter>
-          </main>
-        </ModalContext.Provider>
+          <ModalContext.Provider value={{ showModal, setShowModal }}>
+            <Layout>
+              <BrowserRouter>
+                <Routes>
+                  <Route path={AppRoutes.Home} element={<Home />} />
+                </Routes>
+              </BrowserRouter>
+            </Layout>
+          </ModalContext.Provider>
         </WebSocketProvider>
       </IntlProvider>
     </QueryClientProvider>

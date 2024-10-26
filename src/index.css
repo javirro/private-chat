@@ -1,6 +1,11 @@
 /* 360px is the screen size in figma. Mobile design must be scaled considering that width */
 /* 1440px is the screen size in figma. Desktop design must be scaled considering that width */
 
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --remMobile: calc(16 * 100vw / 360);
@@ -43,6 +48,17 @@
   --size104: 6.5rem;
   --size120: 7.5rem;
   --size128: 8rem;
+  --g950: #0c0d0e;
+  --g900: #18191a;
+  --g800: #2f3031;
+  --g700: #3d3e3f;
+  --g600: #4b4c4d;
+  --g500: #5a5b5c;
+  --g400: #6a6b6c;
+  --g300: #ccd2d5;
+  --g200: #ccd2d5;
+  --g100: #e4e7e9;
+  --g50: ##f5f6f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -62,7 +78,6 @@
     font-size: var(--remDesktop);
   }
 }
-
 
 * {
   margin: 0;
@@ -88,4 +103,5 @@ body {
   place-items: center;
   min-width: 360px;
   min-height: 100vh;
+  width: 100%;
 }
