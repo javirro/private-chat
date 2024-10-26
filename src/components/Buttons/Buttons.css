@@ -1,0 +1,23 @@
+.cta-btn {
+  background-color: var(--g100);
+  border: 1px solid var(--g100);
+  border-radius: 5px;
+  color: var(--g900);
+  cursor: pointer;
+  display: inline-block;
+  font-size: var(--size20);
+  font-weight: 600;
+  padding: var(--size12) var(--size16);
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  width: 25%;
+}
+
+@media (max-width: 768px) {
+  .cta-btn {
+    width: 100%;
+    font-size: var(--size20);
+  }
+  
+}

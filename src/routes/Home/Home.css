@@ -1,0 +1,21 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  gap: var(--size40);
+  .join-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--size16);
+    width: 100%;
+    p {
+      font-size: var(--size20);
+      color: var(--g100);
+    }
+  }
+ 
+}

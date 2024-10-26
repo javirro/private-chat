@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 
-const WEBSOCKET_URL = 'wss://api.example.com/ws/'
+const WEBSOCKET_URL = "ws://localhost:5000"
 
-interface WebSocketContextType {
+export interface WebSocketContextType {
   connect: (sessionParam?: string) => void
   cleanReceivedData: () => void
   socket: WebSocket | null
