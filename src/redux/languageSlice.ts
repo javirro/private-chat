@@ -4,7 +4,9 @@ const languageSlice = createSlice({
   name: 'language',
   initialState: window.localStorage.getItem('language') ||  'es',
   reducers: {
-    changeLanguage: (state, action) => action.payload,
+    changeLanguage: (state, action) => {
+      console.log("Previous state language", state)
+      return action.payload}
   },
 })
 

@@ -4,7 +4,9 @@ const chatIdSlice = createSlice({
   name: 'chatId',
   initialState: window.localStorage.getItem('chatId') || '',
   reducers: {
-    updateChatId: (state, action) => action.payload,
+    updateChatId: (state, action) => {
+      console.log("Previous state chatId", state)
+      return action.payload},
   },
 })
 
