@@ -9,9 +9,11 @@ import { useSelector } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import WebSocketProvider from './Websockets/WebSocketProvider'
+import Layout from './Layout'
+import Chat from './routes/Chat/Chat'
 
 import './App.css'
-import Layout from './Layout'
+
 
 export const ModalContext = createContext<ModalContextType | undefined>(undefined)
 
@@ -29,6 +31,7 @@ function App() {
               <BrowserRouter>
                 <Routes>
                   <Route path={AppRoutes.Home} element={<Home />} />
+                  <Route path={AppRoutes.Chat + ":id"} element={<Chat />} />
                 </Routes>
               </BrowserRouter>
             </Layout>

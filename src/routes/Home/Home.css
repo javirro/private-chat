@@ -17,5 +17,19 @@
       color: var(--g100);
     }
   }
- 
+  .grid-chats {
+    display: grid;
+    grid-template-columns: repeat(3, 30%);
+    gap: var(--size16);
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding-top: var(--size20);
+    .grid-chats {
+      grid-template-columns: 1fr;
+    }
+  }
 }

@@ -1,13 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { WebSocketContextType, WebSocketsMessage } from '../types/generalTypes'
+import { useChatId } from '../hooks/useChatId'
+import { useDispatch } from 'react-redux'
+import { updateChatId } from '../redux/chatIdSlice'
 
-const WEBSOCKET_URL = "ws://localhost:5000"
-
-export interface WebSocketContextType {
-  connect: (sessionParam?: string) => void
-  cleanReceivedData: () => void
-  socket: WebSocket | null
-  receivedData: string | null
-}
+const WEBSOCKET_URL = 'ws://localhost:5000'
 
 export const SocketContext = createContext<WebSocketContextType | undefined>(undefined)
 
@@ -15,9 +12,13 @@ const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const [receivedData, setReceivedData] = useState<string | null>(null)
 
-  // Connect to the websocket server
+  const chatId = useChatId()
+
+  const dispatch = useDispatch()
+
+  //* Connect to the websocket server
   const connect = (sessionParam?: string) => {
-    const socketUrl = sessionParam ? `${WEBSOCKET_URL}${sessionParam}` : WEBSOCKET_URL
+    const socketUrl = sessionParam ? `${WEBSOCKET_URL}?chat=${sessionParam}` : WEBSOCKET_URL
     try {
       setSocket((prevSockect: WebSocket | null) => {
         if (!prevSockect) return new WebSocket(`${socketUrl}`)
@@ -28,15 +29,15 @@ const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  //Clean received data
+  //* Clean received data
   const cleanReceivedData = () => {
     setReceivedData(null)
   }
 
   // Open connection
   useEffect(() => {
-    socket?.addEventListener('open', (event: Event) => {
-      console.log('Socket open connection', event)
+    socket?.addEventListener('open', () => {
+      console.info('Open socket connection')
     })
 
     return () => {
@@ -55,37 +56,34 @@ const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [socket])
 
-  // listen messages
+  //* listen messages
   useEffect(() => {
     socket?.addEventListener('message', (event) => {
-      console.log('Received message from server')
       const stringMessage: string = event.data
       setReceivedData(stringMessage)
+      const data: WebSocketsMessage = JSON.parse(stringMessage)
+      if (data.type === 'join') {
+        dispatch(updateChatId(data.socketId))
+      }
     })
     return () => {
       socket?.removeEventListener('message', () => console.log('Unmounting message listener'))
     }
   }, [socket])
 
-  // Reconnect after 3 seconds if the connection is closed
+  //* Reconnect after 3 seconds if the connection is closed
   useEffect(() => {
+    if (!socket) return
     socket?.addEventListener('close', () => {
-      console.log('WebSocket closed, trying to reconnect...')
+      console.log('Close listenner chatId', chatId)
+      console.warn(`Socket ${chatId} closed. Trying to reconnect in 3 seconds...`)
+      setSocket(null)
       setTimeout(() => connect(), 3000)
     })
     return () => {
       socket?.removeEventListener('close', () => console.log('Unmounting close listener'))
     }
-  }, [socket])
-
-  // Clean up the socket connection
-  useEffect(() => {
-    return () => {
-      if (socket) {
-        socket.close()
-      }
-    }
-  }, [socket])
+  }, [chatId])
 
   return <SocketContext.Provider value={{ connect, cleanReceivedData, socket, receivedData }}>{children}</SocketContext.Provider>
 }

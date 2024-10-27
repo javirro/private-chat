@@ -1,0 +1,10 @@
+.chat-card {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: var(--size16);
+  border: 1px solid #e0e0e0;
+  border-radius: var(--size4);
+  cursor: pointer;
+  text-decoration: none;
+}
