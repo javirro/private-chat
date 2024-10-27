@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Pets",
+    "description": "Everything about pets"
+  },
+  {
+    "id": 2,
+    "name": "Football",
+    "description": "Everything about spanish football"
+  },
+  {
+    "id": 3,
+    "name": "Movies",
+    "description": "Everything about movies"
+  }
+]
