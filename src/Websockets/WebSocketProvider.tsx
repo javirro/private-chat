@@ -3,8 +3,9 @@ import { ChatType, WebSocketContextType, WebSocketsMessage } from '../types/gene
 import { useChatId } from '../hooks/useChatId'
 import { useDispatch } from 'react-redux'
 import { updateChatId } from '../redux/chatIdSlice'
+import { DEVELOPMENT } from '../contants'
 
-const WEBSOCKET_URL = 'ws://localhost:5000'
+const WEBSOCKET_URL =  DEVELOPMENT ? 'ws://localhost:5000' : 'wss://chat-back.bilito.fun'
 
 export const SocketContext = createContext<WebSocketContextType | undefined>(undefined)
 
