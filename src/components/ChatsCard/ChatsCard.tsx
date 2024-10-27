@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { AppRoutes } from '../../routes/routesDefinition'
 import { useWebSocket } from '../../hooks/useSocket'
+import { ChatType } from '../../types/generalTypes'
+
 import './ChatsCard.css'
-
-
 
 export interface ChatsCardProps {
   name: string
@@ -12,11 +12,10 @@ export interface ChatsCardProps {
 }
 
 const ChatsCard: React.FC<ChatsCardProps> = ({ name, description, id }) => {
-  const { connect} = useWebSocket()
-
+  const { connect } = useWebSocket()
+  const chatType = name.toLowerCase() as ChatType
   const handleConnect = () => {
-    connect(name.toLowerCase())
-
+    connect(chatType)
   }
   return (
     <Link className="chat-card" to={AppRoutes.Chat + id} onClick={handleConnect}>

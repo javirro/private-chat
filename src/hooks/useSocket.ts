@@ -3,6 +3,6 @@ import { SocketContext } from '../Websockets/WebSocketProvider'
 import { WebSocketContextType } from '../types/generalTypes'
 
 export const useWebSocket = () => {
-  const { socket, connect, receivedData, cleanReceivedData } = useContext(SocketContext) as WebSocketContextType
-  return { socket, connect, receivedData, cleanReceivedData }
+  const { socket, connect, receivedData, cleanReceivedData, setChatType } = useContext(SocketContext) as WebSocketContextType
+  return { socket, connect, receivedData, cleanReceivedData, setChatType }
 }

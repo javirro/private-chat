@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { WebSocketContextType, WebSocketsMessage } from '../types/generalTypes'
+import { ChatType, WebSocketContextType, WebSocketsMessage } from '../types/generalTypes'
 import { useChatId } from '../hooks/useChatId'
 import { useDispatch } from 'react-redux'
 import { updateChatId } from '../redux/chatIdSlice'
@@ -11,13 +11,15 @@ export const SocketContext = createContext<WebSocketContextType | undefined>(und
 const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const [receivedData, setReceivedData] = useState<string | null>(null)
+  const [chatType, setChatType] = useState<ChatType | null>(null)
 
-  const chatId = useChatId()
+  const socketId = useChatId()
 
   const dispatch = useDispatch()
 
   //* Connect to the websocket server
-  const connect = (sessionParam?: string) => {
+  const connect = (sessionParam?: ChatType) => {
+    setChatType(sessionParam as ChatType)
     const socketUrl = sessionParam ? `${WEBSOCKET_URL}?chat=${sessionParam}` : WEBSOCKET_URL
     try {
       setSocket((prevSockect: WebSocket | null) => {
@@ -75,17 +77,20 @@ const WebSocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!socket) return
     socket?.addEventListener('close', () => {
-      console.log('Close listenner chatId', chatId)
-      console.warn(`Socket ${chatId} closed. Trying to reconnect in 3 seconds...`)
+      console.log('Close listenner chatId', socketId)
+      console.warn(`Socket ${socketId} closed. Trying to reconnect in 3 seconds...`)
       setSocket(null)
-      setTimeout(() => connect(), 3000)
+      setTimeout(() => {
+        if (!chatType) return
+        connect(chatType)
+      }, 3000)
     })
     return () => {
       socket?.removeEventListener('close', () => console.log('Unmounting close listener'))
     }
-  }, [chatId])
+  }, [socketId])
 
-  return <SocketContext.Provider value={{ connect, cleanReceivedData, socket, receivedData }}>{children}</SocketContext.Provider>
+  return <SocketContext.Provider value={{ connect, cleanReceivedData, socket, receivedData, setChatType }}>{children}</SocketContext.Provider>
 }
 
 export default WebSocketProvider

@@ -6,10 +6,11 @@ export interface ModalContextType {
 export type Language = 'en' | 'es'
 
 export interface WebSocketContextType {
-  connect: (sessionParam?: string) => void
+  connect: (sessionParam?: ChatType) => void
   cleanReceivedData: () => void
   socket: WebSocket | null
   receivedData: string | null
+  setChatType: (chat: ChatType | null) => void
 }
 
 export type WebSocketMessageType = 'join' | 'message' | 'leave'
