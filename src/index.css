@@ -1,6 +1,7 @@
 /* 360px is the screen size in figma. Mobile design must be scaled considering that width */
 /* 1440px is the screen size in figma. Desktop design must be scaled considering that width */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 #root {
   width: 100%;
   min-height: 100vh;

@@ -8,13 +8,20 @@ import { useChatId } from '../../hooks/useChatId'
 
 import './Chat.css'
 
+type OwsershipMessage = 'sent' | 'received'
+
+interface MessagesShown {
+  message: string
+  ownership: OwsershipMessage
+}
+
 const Chat = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const thisChat = chats.find((chat) => chat.id === parseInt(id as string))
   const chatName: ChatType = (thisChat?.name as string).toLowerCase() as ChatType
   const [text, setText] = useState<string>('')
-  const [messages, setMessages] = useState<string[]>([])
+  const [messages, setMessages] = useState<MessagesShown[]>([])
   const { socket, receivedData, setChatType } = useWebSocket()
   const chatId = useChatId()
 
@@ -22,7 +29,7 @@ const Chat = () => {
     if (receivedData) {
       const data: WebSocketsMessage = JSON.parse(receivedData)
       if (data.chat === chatName) {
-        setMessages([...messages, data.content])
+        setMessages([...messages, { message: data.content, ownership: 'received' }])
       }
     }
   }, [receivedData])
@@ -40,7 +47,7 @@ const Chat = () => {
       socketId: chatId,
     }
     socket.send(JSON.stringify(message))
-    setMessages([...messages, text])
+    setMessages([...messages, { message: message.content, ownership: 'sent' }])
     setText('')
   }
 
@@ -52,7 +59,6 @@ const Chat = () => {
 
   return (
     <div className="chat-page">
-      <h1>Chat</h1>
       <section className="middle">
         <header>
           <h4>{thisChat?.name}</h4>
@@ -61,9 +67,9 @@ const Chat = () => {
 
         <section className="content-box">
           <div className="messages-list">
-            {messages.map((message, index) => (
-              <div className="message" key={index}>
-                <p>{message}</p>
+            {messages.map((m: MessagesShown, index) => (
+              <div className={`message ${m.ownership}`} key={index}>
+                <p>{m.message}</p>
               </div>
             ))}
           </div>
